@@ -84,7 +84,6 @@ public class SharedPreferencesHelper {
         editor.putBoolean(key, value);
         editor.apply();
     }
-
     public boolean getBoolean(String key, boolean defaultValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(key, defaultValue);
