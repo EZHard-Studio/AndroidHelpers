@@ -55,7 +55,6 @@ public class SnackbarHelper {
 
     }
     public static Snackbar buildSnackbar(@NonNull View view, @NonNull SnackbarType type, @NonNull String message, String actionText, SnackbarHelperActions actions, @NonNull int duration) {
-
         int backgroundColor = getColorForType(type, view.getContext());
         int textColor = getContrastingTextColor(backgroundColor);
         Snackbar snackbar = Snackbar.make(view, message, duration);
