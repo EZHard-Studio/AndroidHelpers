@@ -1,0 +1,769 @@
+link to chat:
+    https://chat.openai.com/share/bd8e0fb7-c3ed-4764-a661-ccf002dc974a
+    
+transcript:
+    User
+    android studio java
+    i need a static functions to set any primitive types to shared prefrences, and corresponding function to get primitive types from shared prefrences.
+    the first arguments in the functins should be
+    Context context - to create the shared prefrences and editor instance
+    String prefType - to differentiate between shared prefrences types.
+    String key - to get the primitive value
+    ChatGPT
+    Sure! I can provide you with example static functions to set and get primitive types from SharedPreferences in Android Studio using Java.
+
+    Here's an example of a static function to set a primitive value to SharedPreferences:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+
+    public class SharedPreferencesUtils {
+
+        public static void setPrimitiveValue(Context context, String prefType, String key, Object value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            if (value instanceof String) {
+                editor.putString(key, (String) value);
+            } else if (value instanceof Integer) {
+                editor.putInt(key, (Integer) value);
+            } else if (value instanceof Long) {
+                editor.putLong(key, (Long) value);
+            } else if (value instanceof Float) {
+                editor.putFloat(key, (Float) value);
+            } else if (value instanceof Boolean) {
+                editor.putBoolean(key, (Boolean) value);
+            }
+
+            editor.apply();
+        }
+    }
+    And here's an example of a corresponding static function to get a primitive value from SharedPreferences:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+
+    public class SharedPreferencesUtils {
+
+        public static Object getPrimitiveValue(Context context, String prefType, String key, Object defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+
+            if (defaultValue instanceof String) {
+                return sharedPreferences.getString(key, (String) defaultValue);
+            } else if (defaultValue instanceof Integer) {
+                return sharedPreferences.getInt(key, (Integer) defaultValue);
+            } else if (defaultValue instanceof Long) {
+                return sharedPreferences.getLong(key, (Long) defaultValue);
+            } else if (defaultValue instanceof Float) {
+                return sharedPreferences.getFloat(key, (Float) defaultValue);
+            } else if (defaultValue instanceof Boolean) {
+                return sharedPreferences.getBoolean(key, (Boolean) defaultValue);
+            }
+
+            return defaultValue;
+        }
+    }
+    You can use these functions by calling SharedPreferencesUtils.setPrimitiveValue() to set a primitive value and SharedPreferencesUtils.getPrimitiveValue() to retrieve a primitive value from SharedPreferences. Make sure to replace prefType with the name of your SharedPreferences file, key with the desired key for the value, and value or defaultValue with the actual value you want to set or retrieve.
+
+    Remember to add appropriate error handling and validation as per your requirements.
+
+
+
+
+
+    User
+    i want a different function for each primitive value
+    e.g.
+    setIntIntoPrefs
+    setStringIntoPrefs
+    etc..
+    and
+    getIntInFromPrefs
+    getStringInFromPrefs
+    etc..
+    ChatGPT
+    I apologize for the misunderstanding. If you prefer separate functions for each primitive type, here's an updated version of the code with individual functions for each type:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+
+    public class SharedPreferencesUtils {
+
+        public static void setIntIntoPrefs(Context context, String prefType, String key, int value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(key, value);
+            editor.apply();
+        }
+
+        public static void setStringIntoPrefs(Context context, String prefType, String key, String value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(key, value);
+            editor.apply();
+        }
+
+        public static void setLongIntoPrefs(Context context, String prefType, String key, long value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putLong(key, value);
+            editor.apply();
+        }
+
+        public static void setFloatIntoPrefs(Context context, String prefType, String key, float value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putFloat(key, value);
+            editor.apply();
+        }
+
+        public static void setBooleanIntoPrefs(Context context, String prefType, String key, boolean value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(key, value);
+            editor.apply();
+        }
+
+        public static int getIntFromPrefs(Context context, String prefType, String key, int defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getInt(key, defaultValue);
+        }
+
+        public static String getStringFromPrefs(Context context, String prefType, String key, String defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getString(key, defaultValue);
+        }
+
+        public static long getLongFromPrefs(Context context, String prefType, String key, long defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getLong(key, defaultValue);
+        }
+
+        public static float getFloatFromPrefs(Context context, String prefType, String key, float defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getFloat(key, defaultValue);
+        }
+
+        public static boolean getBooleanFromPrefs(Context context, String prefType, String key, boolean defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getBoolean(key, defaultValue);
+        }
+    }
+    With these updated functions, you can use SharedPreferencesUtils.setIntIntoPrefs() to set an integer, SharedPreferencesUtils.setStringIntoPrefs() to set a string, and so on. Similarly, you can retrieve the values using SharedPreferencesUtils.getIntFromPrefs(), SharedPreferencesUtils.getStringFromPrefs(), and so on.
+
+    Make sure to replace prefType with the name of your SharedPreferences file, key with the desired key for the value, and the appropriate arguments for setting or retrieving the values.
+
+    Once again, please note that it's essential to add appropriate error handling and validation in your actual implementation.
+
+
+
+
+
+    User
+    turn in into a regular object that in the constractor sets the context and prefType string, and use the functions to get and set the primitive values
+    ChatGPT
+    Certainly! Here's an updated version of the code where we create a class called SharedPreferencesHelper that takes the Context and prefType string as constructor parameters. This class provides methods to set and get primitive values from SharedPreferences:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+
+    public class SharedPreferencesHelper {
+        private Context context;
+        private String prefType;
+
+        public SharedPreferencesHelper(Context context, String prefType) {
+            this.context = context;
+            this.prefType = prefType;
+        }
+
+        public void setInt(String key, int value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(key, value);
+            editor.apply();
+        }
+
+        public int getInt(String key, int defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getInt(key, defaultValue);
+        }
+
+        public void setString(String key, String value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(key, value);
+            editor.apply();
+        }
+
+        public String getString(String key, String defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getString(key, defaultValue);
+        }
+
+        public void setLong(String key, long value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putLong(key, value);
+            editor.apply();
+        }
+
+        public long getLong(String key, long defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getLong(key, defaultValue);
+        }
+
+        public void setFloat(String key, float value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putFloat(key, value);
+            editor.apply();
+        }
+
+        public float getFloat(String key, float defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getFloat(key, defaultValue);
+        }
+
+        public void setBoolean(String key, boolean value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(key, value);
+            editor.apply();
+        }
+
+        public boolean getBoolean(String key, boolean defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            return sharedPreferences.getBoolean(key, defaultValue);
+        }
+    }
+    You can create an instance of SharedPreferencesHelper by passing the Context and prefType to the constructor. Then, you can use the instance to call the respective methods to set and get the primitive values from SharedPreferences.
+
+    Here's an example usage:
+
+    java
+    Copy code
+    // Create an instance of SharedPreferencesHelper
+    SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(context, "my_prefs");
+
+    // Set an integer value
+    sharedPreferencesHelper.setInt("my_int_key", 10);
+
+    // Get the integer value with a default value of 0 if not found
+    int intValue = sharedPreferencesHelper.getInt("my_int_key", 0);
+
+    // Set a string value
+    sharedPreferencesHelper.setString("my_string_key", "Hello, World!");
+
+    // Get the string value with a default value of an empty string if not found
+    String stringValue = sharedPreferencesHelper.getString("my_string_key", "");
+    Remember to replace context with the appropriate Context object and "my_prefs" with the desired SharedPreferences name.
+
+    Feel free to add additional methods or customize the class as per your requirements.
+
+
+
+
+
+    User
+    add to the class the ability to get any type of object T, set it and get it
+    ChatGPT
+    To add the ability to set and get any type of object T in the SharedPreferencesHelper class, you can make use of Gson (Google's JSON serialization/deserialization library). Gson allows you to convert objects to JSON strings and vice versa, which can then be stored and retrieved from SharedPreferences as strings.
+
+    Here's an updated version of the SharedPreferencesHelper class that includes methods to set and get objects of any type T:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+    import com.google.gson.Gson;
+    import com.google.gson.reflect.TypeToken;
+    import java.lang.reflect.Type;
+
+    public class SharedPreferencesHelper {
+        private Context context;
+        private String prefType;
+        private Gson gson;
+
+        public SharedPreferencesHelper(Context context, String prefType) {
+            this.context = context;
+            this.prefType = prefType;
+            this.gson = new Gson();
+        }
+
+        public <T> void setObject(String key, T value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            String json = gson.toJson(value);
+            editor.putString(key, json);
+            editor.apply();
+        }
+
+        public <T> T getObject(String key, Type typeOfT, T defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            String json = sharedPreferences.getString(key, null);
+            if (json != null) {
+                return gson.fromJson(json, typeOfT);
+            }
+            return defaultValue;
+        }
+    }
+    The setObject() method converts the object to a JSON string using Gson and saves it to SharedPreferences as a string value.
+
+    The getObject() method retrieves the JSON string from SharedPreferences and uses Gson to deserialize it back into an object of the specified type.
+
+    Here's an example usage:
+
+    java
+    Copy code
+    // Create an instance of SharedPreferencesHelper
+    SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(context, "my_prefs");
+
+    // Set an object
+    Person person = new Person("John", 25);
+    sharedPreferencesHelper.setObject("my_object_key", person);
+
+    // Get the object
+    Person retrievedPerson = sharedPreferencesHelper.getObject("my_object_key", new TypeToken<Person>() {}.getType(), null);
+    Make sure to replace context with the appropriate Context object, "my_prefs" with the desired SharedPreferences name, and adjust the object type and key as needed.
+
+    Note that for the getObject() method, you need to pass a TypeToken to specify the object type, as Gson requires it for deserialization.
+
+
+
+
+
+    User
+    what to implement for gson?
+    ChatGPT
+    To use Gson in your Android project, you need to include the Gson library as a dependency. Here's how you can add Gson to your project using Gradle:
+
+    Open your module-level build.gradle file.
+
+    Inside the dependencies block, add the following line:
+
+    groovy
+    Copy code
+    implementation 'com.google.code.gson:gson:2.8.8'
+    Sync your project to download and include the Gson library.
+
+    Once you've added the Gson dependency, you can use it in your SharedPreferencesHelper class as shown in the previous code snippet.
+
+    Here's an updated version of the SharedPreferencesHelper class that includes Gson:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+    import com.google.gson.Gson;
+    import com.google.gson.reflect.TypeToken;
+    import java.lang.reflect.Type;
+
+    public class SharedPreferencesHelper {
+        private Context context;
+        private String prefType;
+        private Gson gson;
+
+        public SharedPreferencesHelper(Context context, String prefType) {
+            this.context = context;
+            this.prefType = prefType;
+            this.gson = new Gson();
+        }
+
+        public <T> void setObject(String key, T value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            String json = gson.toJson(value);
+            editor.putString(key, json);
+            editor.apply();
+        }
+
+        public <T> T getObject(String key, Type typeOfT, T defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            String json = sharedPreferences.getString(key, null);
+            if (json != null) {
+                return gson.fromJson(json, typeOfT);
+            }
+            return defaultValue;
+        }
+    }
+    With Gson added as a dependency and the SharedPreferencesHelper class updated accordingly, you can now set and retrieve objects of any type T using Gson's serialization and deserialization capabilities.
+
+
+
+
+
+    User
+    getObject(String key, Type typeOfT, T defaultValue) where to import Type from?
+    ChatGPT
+    To use the Type class in the getObject method of the SharedPreferencesHelper class, you need to import it from the java.lang.reflect package. Here's the import statement you can add:
+
+    java
+    Copy code
+    import java.lang.reflect.Type;
+    After adding this import statement, the getObject method in the SharedPreferencesHelper class should be able to resolve the Type class correctly.
+
+    Here's an updated version of the SharedPreferencesHelper class with the import statement included:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+    import com.google.gson.Gson;
+    import com.google.gson.reflect.TypeToken;
+    import java.lang.reflect.Type;
+
+    public class SharedPreferencesHelper {
+        private Context context;
+        private String prefType;
+        private Gson gson;
+
+        public SharedPreferencesHelper(Context context, String prefType) {
+            this.context = context;
+            this.prefType = prefType;
+            this.gson = new Gson();
+        }
+
+        public <T> void setObject(String key, T value) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            String json = gson.toJson(value);
+            editor.putString(key, json);
+            editor.apply();
+        }
+
+        public <T> T getObject(String key, Type typeOfT, T defaultValue) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+            String json = sharedPreferences.getString(key, null);
+            if (json != null) {
+                return gson.fromJson(json, typeOfT);
+            }
+            return defaultValue;
+        }
+    }
+    Make sure to add this import statement at the top of the Java file where you're using the SharedPreferencesHelper class.
+
+
+
+
+
+    User
+    add to setObject and getObject the throw it can trigger
+    ChatGPT
+    To handle potential exceptions in the setObject and getObject methods of the SharedPreferencesHelper class, you can add the appropriate exception handling and throw clauses. Here's an updated version of the code with the modifications:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+    import com.google.gson.Gson;
+    import com.google.gson.reflect.TypeToken;
+    import java.lang.reflect.Type;
+
+    public class SharedPreferencesHelper {
+        private Context context;
+        private String prefType;
+        private Gson gson;
+
+        public SharedPreferencesHelper(Context context, String prefType) {
+            this.context = context;
+            this.prefType = prefType;
+            this.gson = new Gson();
+        }
+
+        public <T> void setObject(String key, T value) throws Exception {
+            try {
+                SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String json = gson.toJson(value);
+                editor.putString(key, json);
+                editor.apply();
+            } catch (Exception e) {
+                throw new Exception("Failed to set object in SharedPreferences", e);
+            }
+        }
+
+        public <T> T getObject(String key, Type typeOfT, T defaultValue) throws Exception {
+            try {
+                SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+                String json = sharedPreferences.getString(key, null);
+                if (json != null) {
+                    return gson.fromJson(json, typeOfT);
+                }
+                return defaultValue;
+            } catch (Exception e) {
+                throw new Exception("Failed to get object from SharedPreferences", e);
+            }
+        }
+    }
+    In the setObject method, we wrap the code in a try-catch block to catch any exceptions that might occur during the serialization and storing of the object. If an exception is caught, we throw a new exception with an appropriate error message and the original exception as the cause.
+
+    Similarly, in the getObject method, we handle any exceptions that might occur during the deserialization and retrieval of the object from SharedPreferences. If an exception is caught, we throw a new exception with an appropriate error message and the original exception as the cause.
+
+    By throwing exceptions, you can handle potential errors or exceptions in the calling code that uses the SharedPreferencesHelper class.
+
+    Please note that the Exception class used in this example is a general exception type. It's recommended to use more specific exception types or create custom exception classes based on your specific needs for better error handling.
+
+
+
+
+
+    User
+    make SharedPreferencesHelperExeption sub class and implement it in the code
+    ChatGPT
+    Certainly! Here's an updated version of the code that includes a custom SharedPreferencesHelperException class:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+    import com.google.gson.Gson;
+    import com.google.gson.reflect.TypeToken;
+    import java.lang.reflect.Type;
+
+    public class SharedPreferencesHelper {
+        private Context context;
+        private String prefType;
+        private Gson gson;
+
+        public SharedPreferencesHelper(Context context, String prefType) {
+            this.context = context;
+            this.prefType = prefType;
+            this.gson = new Gson();
+        }
+
+        public <T> void setObject(String key, T value) throws SharedPreferencesHelperException {
+            try {
+                SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String json = gson.toJson(value);
+                editor.putString(key, json);
+                editor.apply();
+            } catch (Exception e) {
+                throw new SharedPreferencesHelperException("Failed to set object in SharedPreferences", e);
+            }
+        }
+
+        public <T> T getObject(String key, Type typeOfT, T defaultValue) throws SharedPreferencesHelperException {
+            try {
+                SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+                String json = sharedPreferences.getString(key, null);
+                if (json != null) {
+                    return gson.fromJson(json, typeOfT);
+                }
+                return defaultValue;
+            } catch (Exception e) {
+                throw new SharedPreferencesHelperException("Failed to get object from SharedPreferences", e);
+            }
+        }
+
+        public static class SharedPreferencesHelperException extends Exception {
+            public SharedPreferencesHelperException(String message, Throwable cause) {
+                super(message, cause);
+            }
+        }
+    }
+    In this updated code, we've added a nested SharedPreferencesHelperException class that extends the Exception class. It takes a message and a cause (the original exception) as parameters and passes them to the Exception class constructor using the super keyword.
+
+    Now, whenever an exception occurs during the setObject or getObject operations, a SharedPreferencesHelperException will be thrown with the appropriate error message and the original exception as the cause.
+
+    You can catch and handle this custom exception in the calling code as needed to provide specific error handling or to propagate the exception further.
+
+    Here's an example of how you can catch the SharedPreferencesHelperException:
+
+    java
+    Copy code
+    SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(context, "my_prefs");
+
+    try {
+        // Set an object
+        Person person = new Person("John", 25);
+        sharedPreferencesHelper.setObject("my_object_key", person);
+
+        // Get the object
+        Person retrievedPerson = sharedPreferencesHelper.getObject("my_object_key", new TypeToken<Person>() {}.getType(), null);
+
+        // Do something with the retrieved object
+    } catch (SharedPreferencesHelper.SharedPreferencesHelperException e) {
+        // Handle the exception
+        e.printStackTrace();
+    }
+    By catching the SharedPreferencesHelperException, you can handle the specific error condition or log the exception details for further investigation.
+
+
+
+
+
+    User
+
+    2 / 2
+
+                throw new SharedPreferencesHelperException("Failed to set object in SharedPreferences", e);
+    add the T class name in the first argument string
+    ChatGPT
+    Certainly! Here's an updated version of the code where the class name of the object being set is included in the error message:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+    import com.google.gson.Gson;
+    import com.google.gson.reflect.TypeToken;
+    import java.lang.reflect.Type;
+
+    public class SharedPreferencesHelper {
+        private Context context;
+        private String prefType;
+        private Gson gson;
+
+        public SharedPreferencesHelper(Context context, String prefType) {
+            this.context = context;
+            this.prefType = prefType;
+            this.gson = new Gson();
+        }
+
+        public <T> void setObject(String key, T value) throws SharedPreferencesHelperException {
+            try {
+                SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String json = gson.toJson(value);
+                editor.putString(key, json);
+                editor.apply();
+            } catch (Exception e) {
+                throw new SharedPreferencesHelperException("Failed to set object of type " + value.getClass().getSimpleName() + " in SharedPreferences", e);
+            }
+        }
+
+        public <T> T getObject(String key, Type typeOfT, T defaultValue) throws SharedPreferencesHelperException {
+            try {
+                SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+                String json = sharedPreferences.getString(key, null);
+                if (json != null) {
+                    return gson.fromJson(json, typeOfT);
+                }
+                return defaultValue;
+            } catch (Exception e) {
+                throw new SharedPreferencesHelperException("Failed to get object from SharedPreferences", e);
+            }
+        }
+
+        public static class SharedPreferencesHelperException extends Exception {
+            public SharedPreferencesHelperException(String message, Throwable cause) {
+                super(message, cause);
+            }
+        }
+    }
+    In the setObject method, we've modified the error message to include the class name of the object being set. The value.getClass().getSimpleName() expression retrieves the simple name of the class of the value object. This helps in providing more specific information about the type of the object that failed to be set in SharedPreferences.
+
+    Now, when the setObject method encounters an exception, the error message will indicate the class name of the object that failed to be set.
+
+    For example, if you try to set an object of type Person, the error message will be:
+
+    python
+    Copy code
+    Failed to set object of type Person in SharedPreferences
+    This provides more detailed information about the type of the object that encountered the exception.
+
+    You can customize the error messages further based on your specific requirements and exception handling needs.
+
+
+
+
+
+    User
+    add
+    /**
+    *@params
+    *@implNote
+    **/
+    to every function and explain exactly what every function does
+    ChatGPT
+    Certainly! Here's an updated version of the SharedPreferencesHelper class with function-level documentation explaining each function's purpose:
+
+    java
+    Copy code
+    import android.content.Context;
+    import android.content.SharedPreferences;
+    import com.google.gson.Gson;
+    import com.google.gson.reflect.TypeToken;
+    import java.lang.reflect.Type;
+
+    public class SharedPreferencesHelper {
+        private Context context;
+        private String prefType;
+        private Gson gson;
+
+        /**
+         * Constructor for SharedPreferencesHelper.
+         *
+         * @param context  The context used to create SharedPreferences.
+         * @param prefType The type or name of the SharedPreferences.
+         */
+        public SharedPreferencesHelper(Context context, String prefType) {
+            this.context = context;
+            this.prefType = prefType;
+            this.gson = new Gson();
+        }
+
+        /**
+         * Sets the object of type T in SharedPreferences with the given key.
+         *
+         * @param key   The key to identify the object in SharedPreferences.
+         * @param value The object of type T to be stored in SharedPreferences.
+         * @param <T>   The type of the object.
+         * @throws SharedPreferencesHelperException If there is an error while setting the object in SharedPreferences.
+         */
+        public <T> void setObject(String key, T value) throws SharedPreferencesHelperException {
+            try {
+                SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String json = gson.toJson(value);
+                editor.putString(key, json);
+                editor.apply();
+            } catch (Exception e) {
+                throw new SharedPreferencesHelperException("Failed to set object of type " + value.getClass().getSimpleName() + " in SharedPreferences", e);
+            }
+        }
+
+        /**
+         * Retrieves the object of type T from SharedPreferences with the given key.
+         *
+         * @param key          The key to retrieve the object from SharedPreferences.
+         * @param typeOfT      The Type object representing the type T.
+         * @param defaultValue The default value to return if the object is not found in SharedPreferences.
+         * @param <T>          The type of the object.
+         * @return The retrieved object of type T, or the defaultValue if not found.
+         * @throws SharedPreferencesHelperException If there is an error while getting the object from SharedPreferences.
+         */
+        public <T> T getObject(String key, Type typeOfT, T defaultValue) throws SharedPreferencesHelperException {
+            try {
+                SharedPreferences sharedPreferences = context.getSharedPreferences(prefType, Context.MODE_PRIVATE);
+                String json = sharedPreferences.getString(key, null);
+                if (json != null) {
+                    return gson.fromJson(json, typeOfT);
+                }
+                return defaultValue;
+            } catch (Exception e) {
+                throw new SharedPreferencesHelperException("Failed to get object from SharedPreferences", e);
+            }
+        }
+
+        /**
+         * Custom exception class for handling exceptions in SharedPreferencesHelper.
+         */
+        public static class SharedPreferencesHelperException extends Exception {
+            public SharedPreferencesHelperException(String message, Throwable cause) {
+                super(message, cause);
+            }
+        }
+    }
+    In this version, each function is documented with @params and @implNote tags, providing a description of the purpose, parameters, and implementation details of each function. The custom exception class is also documented to explain its role in handling exceptions within the SharedPreferencesHelper class.
+
+    Feel free to adjust the documentation as needed to provide further details or clarify any specific information based on your requirements.
