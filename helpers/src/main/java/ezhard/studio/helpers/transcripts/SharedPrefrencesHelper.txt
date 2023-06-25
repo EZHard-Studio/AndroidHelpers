@@ -1,6 +1,5 @@
 link to chat:
     https://chat.openai.com/share/bd8e0fb7-c3ed-4764-a661-ccf002dc974a
-    
 transcript:
     User
     android studio java
