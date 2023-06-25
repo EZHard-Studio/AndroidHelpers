@@ -26,7 +26,16 @@ public class AlertDialogHelper {
         default void onTimeSelected(int hourOfDay, int minute) {}
 
     }
-
+    /**
+     * Displays a basic Yes/No AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param title               The title of the dialog.
+     * @param message             The message to be displayed in the dialog.
+     * @param positiveButtonLabel The label for the positive button.
+     * @param negativeButtonLabel The label for the negative button.
+     * @param dialogCallback      The callback interface to handle button clicks.
+     */
     public static void showBasicAlertDialog(Context context, String title, String message,String positiveButtonLabel, String negativeButtonLabel, final DialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
@@ -48,6 +57,17 @@ public class AlertDialogHelper {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+    /**
+     * Displays a basic Yes/No AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param title               The title of the dialog.
+     * @param message             The message to be displayed in the dialog.
+     * @param positiveButtonLabel The label for the positive button.
+     * @param negativeButtonLabel The label for the negative button.
+     * @param backgroundColor     The background color of the dialog.
+     * @param dialogCallback      The callback interface to handle button clicks.
+     */
     public static void showBasicAlertDialog(Context context, String title, String message, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final DialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
@@ -87,7 +107,16 @@ public class AlertDialogHelper {
             negativeButton.setTextColor(textColor);
         }
     }
-
+    /**
+     * Displays a List AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param title               The title of the dialog.
+     * @param items               The array of items to display in the list.
+     * @param positiveButtonLabel The label for the positive button.
+     * @param negativeButtonLabel The label for the negative button.
+     * @param dialogCallback      The callback interface to handle button clicks and item selection.
+     */
     public static void showListAlertDialog(Context context, String title, String[] items, String positiveButtonLabel, String negativeButtonLabel, final DialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
@@ -115,6 +144,17 @@ public class AlertDialogHelper {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+    /**
+     * Displays a List AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param title               The title of the dialog.
+     * @param items               The array of items to display in the list.
+     * @param positiveButtonLabel The label for the positive button.
+     * @param negativeButtonLabel The label for the negative button.
+     * @param backgroundColor     The background color of the dialog.
+     * @param dialogCallback      The callback interface to handle button clicks and item selection.
+     */
     public static void showListAlertDialog(Context context, String title, String[] items, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final DialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
@@ -161,7 +201,17 @@ public class AlertDialogHelper {
             negativeButton.setTextColor(textColor);
         }
     }
-
+    /**
+     * Displays a SingleChoice AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param title               The title of the dialog.
+     * @param items               The array of items to display in the list.
+     * @param checkedItem         The index of the item that should be checked initially.
+     * @param positiveButtonLabel The label for the positive button.
+     * @param negativeButtonLabel The label for the negative button.
+     * @param dialogCallback      The callback interface to handle button clicks and item selection.
+     */
     public static void showSingleChoiceAlertDialog(Context context, String title, String[] items, int checkedItem, String positiveButtonLabel, String negativeButtonLabel, final DialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
@@ -189,6 +239,18 @@ public class AlertDialogHelper {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+    /**
+     * Displays a SingleChoice AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param title               The title of the dialog.
+     * @param items               The array of items to display in the list.
+     * @param checkedItem         The index of the item that should be checked initially.
+     * @param positiveButtonLabel The label for the positive button.
+     * @param negativeButtonLabel The label for the negative button.
+     * @param backgroundColor     The background color of the dialog.
+     * @param dialogCallback      The callback interface to handle button clicks and item selection.
+     */
     public static void showSingleChoiceAlertDialog(Context context, String title, String[] items, int checkedItem, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final DialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
@@ -234,7 +296,17 @@ public class AlertDialogHelper {
             negativeButton.setTextColor(textColor);
         }
     }
-
+    /**
+     * Displays a MultiChoice AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param title               The title of the dialog.
+     * @param items               The array of items to display in the list.
+     * @param checkedItems        The boolean array indicating the checked state of each item.
+     * @param positiveButtonLabel The label for the positive button.
+     * @param negativeButtonLabel The label for the negative button.
+     * @param dialogCallback      The callback interface to handle button clicks and item selection.
+     */
     public static void showMultiChoiceAlertDialog(Context context, String title, String[] items, boolean[] checkedItems, String positiveButtonLabel, String negativeButtonLabel, final DialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
@@ -262,6 +334,18 @@ public class AlertDialogHelper {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+    /**
+     * Displays a MultiChoice AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param title               The title of the dialog.
+     * @param items               The array of items to display in the list.
+     * @param checkedItems        The boolean array indicating the checked state of each item.
+     * @param positiveButtonLabel The label for the positive button.
+     * @param negativeButtonLabel The label for the negative button.
+     * @param backgroundColor     The background color of the dialog.
+     * @param dialogCallback      The callback interface to handle button clicks and item selection.
+     */
     public static void showMultiChoiceAlertDialog(Context context, String title, String[] items, boolean[] checkedItems, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final DialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
@@ -308,7 +392,15 @@ public class AlertDialogHelper {
         }
     }
 
-
+    /**
+     * Displays a DatePicker AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param year                The initially selected year.
+     * @param month               The initially selected month (0-11).
+     * @param day                 The initially selected day of the month.
+     * @param datePickerCallback The callback interface to handle date selection.
+     */
     public static void showDatePickerDialog(Context context, int year, int month, int day, final DateTimePickerCallback datePickerCallback) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -320,6 +412,16 @@ public class AlertDialogHelper {
         }, year, month, day);
         datePickerDialog.show();
     }
+    /**
+     * Displays a DatePicker AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param year                The initially selected year.
+     * @param month               The initially selected month (0-11).
+     * @param day                 The initially selected day of the month.
+     * @param backgroundColor     The background color of the dialog.
+     * @param datePickerCallback The callback interface to handle date selection.
+     */
     public static void showDatePickerDialog(Context context, int year, int month, int day, int backgroundColor, final DateTimePickerCallback datePickerCallback) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -350,6 +452,14 @@ public class AlertDialogHelper {
         }
     }
 
+    /**
+     * Displays a TimePicker AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param hour                The initially selected hour (0-23).
+     * @param minute              The initially selected minute (0-59).
+     * @param timePickerCallback  The callback interface to handle time selection.
+     */
     public static void showTimePickerDialog(Context context, int hour, int minute, final DateTimePickerCallback timePickerCallback) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -361,6 +471,15 @@ public class AlertDialogHelper {
         }, hour, minute, false);
         timePickerDialog.show();
     }
+    /**
+     * Displays a TimePicker AlertDialog.
+     *
+     * @param context             The context in which the dialog should be shown.
+     * @param hour                The initially selected hour (0-23).
+     * @param minute              The initially selected minute (0-59).
+     * @param backgroundColor     The background color of the dialog.
+     * @param timePickerCallback  The callback interface to handle time selection.
+     */
     public static void showTimePickerDialog(Context context, int hour, int minute, int backgroundColor, final DateTimePickerCallback timePickerCallback) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
