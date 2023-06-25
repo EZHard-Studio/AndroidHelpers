@@ -7,8 +7,7 @@ plugins {
 android {
     namespace 'ezhard.studio.helpers'
     compileSdk 33
-    group = 'ezhard.studio.helpers' // Replace with your group name
-    version = '1.0.0' // Replace with your version number
+
 
     defaultConfig {
         minSdk 29
