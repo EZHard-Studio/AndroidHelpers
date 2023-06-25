@@ -53,6 +53,8 @@ afterEvaluate {
                 groupId = 'ezhard.studio.helpers'
                 artifactId = 'android-helpers'
                 version = '1.0.0'
+                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+
             }
         }
     }
