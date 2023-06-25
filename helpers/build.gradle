@@ -7,13 +7,11 @@ plugins {
 android {
     namespace 'ezhard.studio.helpers'
     compileSdk 33
-    group = 'ezhard.studio.helpers' // Replace with your group name
-    version = '1.0.0' // Replace with your version number
 
     defaultConfig {
         minSdk 29
         targetSdk 33
-
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
@@ -46,14 +44,18 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
 
 }
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                groupId = 'ezhard.studio.helpers'
-                artifactId = 'android-helpers'
-                version = '1.0.0'
-            }
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'ezhard.studio.helpers'
+            artifactId = 'android-helpers'
+            version = '1.0.0'
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.buildDir}/repos"
         }
     }
 }
