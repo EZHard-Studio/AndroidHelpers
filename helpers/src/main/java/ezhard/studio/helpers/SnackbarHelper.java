@@ -52,6 +52,31 @@ public class SnackbarHelper {
         snackbarTextView.setTextColor(textColor);
 
         snackbar.show();
+
+    }
+    public static Snackbar buildSnackbar(@NonNull View view, @NonNull SnackbarType type, @NonNull String message, String actionText, SnackbarHelperActions actions, @NonNull int duration) {
+
+        int backgroundColor = getColorForType(type, view.getContext());
+        int textColor = getContrastingTextColor(backgroundColor);
+        Snackbar snackbar = Snackbar.make(view, message, duration);
+        ViewCompat.setBackgroundTintList(snackbar.getView(), ColorStateList.valueOf(backgroundColor)); // Set background tint
+        if(actionText != null) {
+            snackbar.setAction(actionText, v -> {
+                if (actions != null) {
+                    actions.onActionClick();
+                }
+                snackbar.dismiss();
+            });
+            snackbar.setActionTextColor(textColor);
+        }
+
+        // Set max lines for the Snackbar text view
+        TextView snackbarTextView = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+        snackbarTextView.setMaxLines(Integer.MAX_VALUE);
+        snackbarTextView.setTextColor(textColor);
+
+        return snackbar;
+
     }
 
 
