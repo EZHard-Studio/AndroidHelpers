@@ -20,7 +20,6 @@ public class SnackbarHelper {
         void onActionClick();
     }
 
-
     /**
      * @implNote the default colors are: SUCCESS - Color.GREEN, ERROR - Color.RED, WARNING - Color.YELLOW, INFO - Color.BLUE
      * @param view is for the root view of the snackbar
@@ -54,6 +53,15 @@ public class SnackbarHelper {
         snackbar.show();
 
     }
+    /**
+     * @implNote the default colors are: SUCCESS - Color.GREEN, ERROR - Color.RED, WARNING - Color.YELLOW, INFO - Color.BLUE
+     * @param view is for the root view of the snackbar
+     * @param type one of: SUCCESS, ERROR, WARNING, or INFO. use setSnackbarTypeColor to adjust the snackbar background color.
+     * @param message the message to display at the snackbar
+     * @param actionText for the label of the button to display at the snackbar, use null to hide the action button
+     * @param actions an interface to use at the action click, pass null to use default action of dismissing the snackbar. every action result eventually in snackbar dismissing itself
+     * @param duration , the duration to display the snack bar. its recommended to use Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG or Snackbar.LENGTH_INDEFINITE.
+     */
     public static Snackbar buildSnackbar(@NonNull View view, @NonNull SnackbarType type, @NonNull String message, String actionText, SnackbarHelperActions actions, @NonNull int duration) {
         int backgroundColor = getColorForType(type, view.getContext());
         int textColor = getContrastingTextColor(backgroundColor);
