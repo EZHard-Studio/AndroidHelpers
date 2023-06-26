@@ -15,7 +15,6 @@ this library is here to simplify and shorten the usage of basic and more advance
 
 
 ## Installation & Implementations
-  [![](https://jitpack.io/v/EZHard-Studio/AndroidHelpers.svg)](https://jitpack.io/#EZHard-Studio/AndroidHelpers)
 
 ### using gradle
 Add it in your project settings.gradle at the end of repositories:
@@ -29,7 +28,8 @@ Add it in your project settings.gradle at the end of repositories:
     }
 }
 ```
- Add the dependency at your app level build.gradle
+ Add the dependency at your app level build.gradle use this jitpack version:   [![](https://jitpack.io/v/EZHard-Studio/AndroidHelpers.svg)](https://jitpack.io/#EZHard-Studio/AndroidHelpers)
+
 ```bash
  dependencies {
             ...
