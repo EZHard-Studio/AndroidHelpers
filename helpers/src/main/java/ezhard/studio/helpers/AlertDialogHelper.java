@@ -33,10 +33,7 @@ public class AlertDialogHelper {
         void onPositiveClick(Integer[] selectedItemsIndexes);
         void onNegativeClick();
     }
-
-    public AlertDialogHelper() {
-    }
-
+    
     public interface DateTimePickerCallback  {
         default void onDateSelected(int year, int month, int day){}
         default void onTimeSelected(int hourOfDay, int minute) {}
