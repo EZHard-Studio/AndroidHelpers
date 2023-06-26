@@ -1,8 +1,11 @@
 package ezhard.studio.helpers;
 
+import static android.app.Notification.DEFAULT_SOUND;
+import static android.app.Notification.DEFAULT_VIBRATE;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -13,7 +16,6 @@ import android.os.Build;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 
 import java.util.HashMap;
 
@@ -24,6 +26,27 @@ public class NotificationHelper {
     private Context context;
     private String channelId;
     public static final HashMap<String,NotificationHelper> instances = new HashMap<>();
+
+    public enum ChannelImportance{
+        DEFAULT(    NotificationManager.IMPORTANCE_DEFAULT),
+        MIN(        NotificationManager.IMPORTANCE_MIN),
+        LOW(        NotificationManager.IMPORTANCE_LOW),
+        HIGH(       NotificationManager.IMPORTANCE_HIGH),
+        MAX(        NotificationManager.IMPORTANCE_MAX),
+        NONE(        NotificationManager.IMPORTANCE_NONE),
+        UNSPECIFIED(        NotificationManager.IMPORTANCE_UNSPECIFIED);
+
+        private int importance;
+
+
+        ChannelImportance(int importance) {
+            this.importance = importance;
+        }
+
+        public int getImportance() {
+            return importance;
+        }
+    }
     /**
      * Constructs a NotificationHelper object.
      *
@@ -34,14 +57,16 @@ public class NotificationHelper {
      *
      * @instances static map that holds evey constructed NotificationHelper object. you can accsess each instance by using  instances.get(CHANNEL_ID)
      */
-    public NotificationHelper(Context context, String channelId, String channelName, String channelDescription) {
+    public NotificationHelper(Context context, String channelId, String channelName, String channelDescription, ChannelImportance importance) {
         this.context = context;
         this.channelId = channelId;
-        createNotificationChannel(channelId, channelName, channelDescription);
+        createNotificationChannel(channelId, channelName, channelDescription, importance);
         instances.put(channelId,this);
     }
+    @SuppressLint("WrongConstant") //enum ensures the channelImportance is as needed.
+    private void createNotificationChannel(String channelId, String channelName, String channelDescription, ChannelImportance importance) {
+        int channelImportance = importance.getImportance();
 
-    private void createNotificationChannel(String channelId, String channelName, String channelDescription) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
 
@@ -51,11 +76,11 @@ public class NotificationHelper {
                 // Update the channel name and description if it exists
                 existingChannel.setName(channelName);
                 existingChannel.setDescription(channelDescription);
+                existingChannel.setImportance(channelImportance);
                 notificationManager.createNotificationChannel(existingChannel);
             } else {
                 // Create a new channel if it doesn't exist
-                int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+                NotificationChannel channel = new NotificationChannel(channelId, channelName, channelImportance);
                 channel.setDescription(channelDescription);
                 channel.enableLights(true);
                 channel.setLightColor(Color.RED);
@@ -83,14 +108,17 @@ public class NotificationHelper {
      * Displays a notification.
      * 
      * @param icon           The icon resource ID of the notification.
-     * @param text           The text content of the notification.
+     * @param title           The title content of the notification.
+     * @param body           The body content of the notification.
      * @param notificationId The ID of the notification.
      * @param priority       The priority of the notification.
      */
-    public void showNotification(int icon, String text, int notificationId, NotificationPriority priority) {
+    public void showNotification(int icon, String title,String body, int notificationId, NotificationPriority priority) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(icon)
-                .setContentText(text)
+                .setContentTitle("title")
+                .setContentText(body)
+                .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
                 .setPriority(priority.getPriority())
                 .setAutoCancel(true);
 
