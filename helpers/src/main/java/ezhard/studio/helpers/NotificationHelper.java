@@ -10,15 +10,12 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import java.util.HashMap;
-
 /**
  * Helper class for managing notifications.
  */
 public class NotificationHelper {
     private Context context;
     private String channelId;
-    public static final HashMap<String,NotificationHelper> instances = new HashMap<>();
 
     /**
      * Constructs a NotificationHelper object.
@@ -27,14 +24,11 @@ public class NotificationHelper {
      * @param channelId          The ID of the notification channel.
      * @param channelName        The name of the notification channel.
      * @param channelDescription The description of the notification channel.
-     *
-     * @instances static map that holds evey constructed NotificationHelper object. you can accsess each instance by using  instances.get(CHANNEL_ID)
      */
     public NotificationHelper(Context context, String channelId, String channelName, String channelDescription) {
         this.context = context;
         this.channelId = channelId;
         createNotificationChannel(channelId, channelName, channelDescription);
-        instances.put(channelId,this);
     }
 
     private void createNotificationChannel(String channelId, String channelName, String channelDescription) {
