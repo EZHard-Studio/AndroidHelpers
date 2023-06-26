@@ -63,19 +63,35 @@ public class NotificationHelper {
             }
         }
     }
+    public enum NotificationPriority{
+        DEFAULT(NotificationCompat.PRIORITY_DEFAULT),
+        MIN(NotificationCompat.PRIORITY_MIN),
+        LOW(NotificationCompat.PRIORITY_LOW),
+        HIGH(NotificationCompat.PRIORITY_HIGH),
+        MAX(NotificationCompat.PRIORITY_MAX);
 
+        private int priority;
+        NotificationPriority(int priority) {
+            this.priority = priority;
+        }
+
+        public int getPriority() {
+            return priority;
+        }
+    }
     /**
      * Displays a notification.
-     *
+     * 
      * @param icon           The icon resource ID of the notification.
      * @param text           The text content of the notification.
      * @param notificationId The ID of the notification.
+     * @param priority       The priority of the notification.
      */
-    public void showNotification(int icon, String text, int notificationId) {
+    public void showNotification(int icon, String text, int notificationId, NotificationPriority priority) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(icon)
                 .setContentText(text)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(priority.getPriority())
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
