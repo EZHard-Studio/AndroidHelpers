@@ -8,20 +8,36 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.SparseBooleanArray;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
+
 public class AlertDialogHelper {
-    public interface DialogCallback {
-        default void onPositiveClick() {}
-        default void onNegativeClick(){}
-        default void onItemClick(int position){}
-        default void onItemSelected(int position){}
-        default void onItemSelected(int position, boolean isChecked){}
+    public interface BasicDialogCallback {
+        void onPositiveClick();
+        void onNegativeClick();
     }
-    public interface DateTimePickerCallback {
+    public interface ListDialogCallback{
+        void onItemClick(int position);
+    }
+    public interface SingleChoiceDialogCallback{
+        void onItemSelected(int position);
+    }
+    public interface MultiChoiceDialogCallback{
+        void onItemSelected(int position, boolean isChecked);
+        void onPositiveClick(Integer[] selectedItemsIndexes);
+        void onNegativeClick();
+    }
+
+    public AlertDialogHelper() {
+    }
+
+    public interface DateTimePickerCallback  {
         default void onDateSelected(int year, int month, int day){}
         default void onTimeSelected(int hourOfDay, int minute) {}
 
@@ -36,7 +52,7 @@ public class AlertDialogHelper {
      * @param negativeButtonLabel The label for the negative button.
      * @param dialogCallback      The callback interface to handle button clicks.
      */
-    public static void showBasicAlertDialog(Context context, String title, String message,String positiveButtonLabel, String negativeButtonLabel, final DialogCallback dialogCallback) {
+    public static void showBasicAlertDialog(Context context, String title, String message,String positiveButtonLabel, String negativeButtonLabel, final BasicDialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
                 .setMessage(message)
@@ -68,7 +84,7 @@ public class AlertDialogHelper {
      * @param backgroundColor     The background color of the dialog.
      * @param dialogCallback      The callback interface to handle button clicks.
      */
-    public static void showBasicAlertDialog(Context context, String title, String message, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final DialogCallback dialogCallback) {
+    public static void showBasicAlertDialog(Context context, String title, String message, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final BasicDialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
                 .setMessage(message)
@@ -113,11 +129,9 @@ public class AlertDialogHelper {
      * @param context             The context in which the dialog should be shown.
      * @param title               The title of the dialog.
      * @param items               The array of items to display in the list.
-     * @param positiveButtonLabel The label for the positive button.
-     * @param negativeButtonLabel The label for the negative button.
      * @param dialogCallback      The callback interface to handle button clicks and item selection.
      */
-    public static void showListAlertDialog(Context context, String title, String[] items, String positiveButtonLabel, String negativeButtonLabel, final DialogCallback dialogCallback) {
+    public static void showListAlertDialog(Context context, String title, String[] items, final ListDialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
                 .setItems(items, new DialogInterface.OnClickListener() {
@@ -126,21 +140,7 @@ public class AlertDialogHelper {
                             dialogCallback.onItemClick(which);
                         }
                     }
-                })
-                .setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (dialogCallback != null) {
-                            dialogCallback.onPositiveClick();
-                        }
-                    }
-                })
-                .setNegativeButton(negativeButtonLabel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (dialogCallback != null) {
-                            dialogCallback.onNegativeClick();
-                        }
-                    }
-                });;
+                });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
@@ -150,12 +150,10 @@ public class AlertDialogHelper {
      * @param context             The context in which the dialog should be shown.
      * @param title               The title of the dialog.
      * @param items               The array of items to display in the list.
-     * @param positiveButtonLabel The label for the positive button.
-     * @param negativeButtonLabel The label for the negative button.
      * @param backgroundColor     The background color of the dialog.
      * @param dialogCallback      The callback interface to handle button clicks and item selection.
      */
-    public static void showListAlertDialog(Context context, String title, String[] items, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final DialogCallback dialogCallback) {
+    public static void showListAlertDialog(Context context, String title, String[] items, int backgroundColor, final ListDialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
                 .setItems(items, new DialogInterface.OnClickListener() {
@@ -165,22 +163,7 @@ public class AlertDialogHelper {
                             dialogCallback.onItemClick(which);
                         }
                     }
-                })
-                .setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (dialogCallback != null) {
-                            dialogCallback.onPositiveClick();
-                        }
-                    }
-                })
-                .setNegativeButton(negativeButtonLabel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (dialogCallback != null) {
-                            dialogCallback.onNegativeClick();
-                        }
-                    }
                 });
-
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
 
@@ -208,31 +191,15 @@ public class AlertDialogHelper {
      * @param title               The title of the dialog.
      * @param items               The array of items to display in the list.
      * @param checkedItem         The index of the item that should be checked initially.
-     * @param positiveButtonLabel The label for the positive button.
-     * @param negativeButtonLabel The label for the negative button.
      * @param dialogCallback      The callback interface to handle button clicks and item selection.
      */
-    public static void showSingleChoiceAlertDialog(Context context, String title, String[] items, int checkedItem, String positiveButtonLabel, String negativeButtonLabel, final DialogCallback dialogCallback) {
+    public static void showSingleChoiceAlertDialog(Context context, String title, String[] items, int checkedItem, final SingleChoiceDialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
                 .setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (dialogCallback != null) {
                             dialogCallback.onItemSelected(which);
-                        }
-                    }
-                })
-                .setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (dialogCallback != null) {
-                            dialogCallback.onPositiveClick();
-                        }
-                    }
-                })
-                .setNegativeButton(negativeButtonLabel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (dialogCallback != null) {
-                            dialogCallback.onNegativeClick();
                         }
                     }
                 });
@@ -246,32 +213,16 @@ public class AlertDialogHelper {
      * @param title               The title of the dialog.
      * @param items               The array of items to display in the list.
      * @param checkedItem         The index of the item that should be checked initially.
-     * @param positiveButtonLabel The label for the positive button.
-     * @param negativeButtonLabel The label for the negative button.
      * @param backgroundColor     The background color of the dialog.
      * @param dialogCallback      The callback interface to handle button clicks and item selection.
      */
-    public static void showSingleChoiceAlertDialog(Context context, String title, String[] items, int checkedItem, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final DialogCallback dialogCallback) {
+    public static void showSingleChoiceAlertDialog(Context context, String title, String[] items, int checkedItem, int backgroundColor, final SingleChoiceDialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
                 .setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (dialogCallback != null) {
                             dialogCallback.onItemSelected(which);
-                        }
-                    }
-                })
-                .setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (dialogCallback != null) {
-                            dialogCallback.onPositiveClick();
-                        }
-                    }
-                })
-                .setNegativeButton(negativeButtonLabel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (dialogCallback != null) {
-                            dialogCallback.onNegativeClick();
                         }
                     }
                 });
@@ -307,7 +258,7 @@ public class AlertDialogHelper {
      * @param negativeButtonLabel The label for the negative button.
      * @param dialogCallback      The callback interface to handle button clicks and item selection.
      */
-    public static void showMultiChoiceAlertDialog(Context context, String title, String[] items, boolean[] checkedItems, String positiveButtonLabel, String negativeButtonLabel, final DialogCallback dialogCallback) {
+    public static void showMultiChoiceAlertDialog(Context context, String title, String[] items, boolean[] checkedItems, String positiveButtonLabel, String negativeButtonLabel, final MultiChoiceDialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
                 .setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
@@ -320,7 +271,23 @@ public class AlertDialogHelper {
                 .setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (dialogCallback != null) {
-                            dialogCallback.onPositiveClick();
+                            // Retrieve the array of checked item indexes
+                            ListView listView = ((AlertDialog) dialog).getListView();
+                            SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+                            int itemCount = listView.getCount();
+                            ArrayList<Integer> selectedIndexes = new ArrayList<>();
+
+                            for (int i = 0; i < itemCount; i++) {
+                                if (checkedItemPositions.get(i)) {
+                                    selectedIndexes.add(i);
+                                }
+                            }
+
+                            // Convert the ArrayList to an array of integers
+                            Integer[] selectedIndexArray = new Integer[selectedIndexes.size()];
+                            selectedIndexes.toArray(selectedIndexArray);
+
+                            dialogCallback.onPositiveClick(selectedIndexArray);
                         }
                     }
                 })
@@ -346,7 +313,7 @@ public class AlertDialogHelper {
      * @param backgroundColor     The background color of the dialog.
      * @param dialogCallback      The callback interface to handle button clicks and item selection.
      */
-    public static void showMultiChoiceAlertDialog(Context context, String title, String[] items, boolean[] checkedItems, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final DialogCallback dialogCallback) {
+    public static void showMultiChoiceAlertDialog(Context context, String title, String[] items, boolean[] checkedItems, String positiveButtonLabel, String negativeButtonLabel, int backgroundColor, final MultiChoiceDialogCallback dialogCallback) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle(title)
                 .setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
@@ -359,7 +326,23 @@ public class AlertDialogHelper {
                 .setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (dialogCallback != null) {
-                            dialogCallback.onPositiveClick();
+                            // Retrieve the array of checked item indexes
+                            ListView listView = ((AlertDialog) dialog).getListView();
+                            SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+                            int itemCount = listView.getCount();
+                            ArrayList<Integer> selectedIndexes = new ArrayList<>();
+
+                            for (int i = 0; i < itemCount; i++) {
+                                if (checkedItemPositions.get(i)) {
+                                    selectedIndexes.add(i);
+                                }
+                            }
+
+                            // Convert the ArrayList to an array of integers
+                            Integer[] selectedIndexArray = new Integer[selectedIndexes.size()];
+                            selectedIndexes.toArray(selectedIndexArray);
+
+                            dialogCallback.onPositiveClick(selectedIndexArray);
                         }
                     }
                 })
