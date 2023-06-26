@@ -10,11 +10,12 @@ this library is here to simplify and shorten the usage of basic and more advance
 - [x]  [Snackbars](#Snackbars)
 - [x]  [Shared Preferences](#Shared-Preferences)
 - [x]  [Alert Dialog](#Alert-Dialogs)
-- [ ]  Notifications Builder
+- [x]  [Notifications Builder](#Notifications-Builder)
 - [ ]  Basic Animations
 
 
 ## Installation & Implementations
+  [![](https://jitpack.io/v/EZHard-Studio/AndroidHelpers.svg)](https://jitpack.io/#EZHard-Studio/AndroidHelpers)
 
 ### using gradle
 Add it in your project settings.gradle at the end of repositories:
@@ -28,8 +29,7 @@ Add it in your project settings.gradle at the end of repositories:
     }
 }
 ```
- Add the dependency at your app level build.gradle use this jitpack version:   [![](https://jitpack.io/v/EZHard-Studio/AndroidHelpers.svg)](https://jitpack.io/#EZHard-Studio/AndroidHelpers)
-
+ Add the dependency at your app level build.gradle
 ```bash
  dependencies {
             ...
@@ -56,7 +56,6 @@ Add the dependency
 	</dependency
 ```
 ## Usage/Examples
-
 ### Snackbars
 #### using `SnackbarHelper` static functions to show and build snackbars.
 
@@ -123,7 +122,6 @@ SnackbarHelper.showSnackbar(
 // would result in an undismissable snackbar.
 ``` 
 you can use a builder function to get a snackbar instance instead of just showing it, just replace `showSnackbar` to `buildSnackbar`. the `buildSnackbar` function return a snackbar instance.
-
 ### Shared Preferences
 #### using `SharedPreferencesHelper` to construct instances.
 
@@ -135,7 +133,7 @@ constractor overview:
 |`keepInstance`| `boolean` | if true, the instance of SharedPreferences is saved in an internal static map, query the desired SharedPreferences using `prefType` as key |
 
 #### Examples:
-standart initialization and usage:
+standard initialization and usage:
 ```java
 SharedPreferencesHelper helper = new SharedPreferencesHelper(this,"pref1",false); 
 //setting primitive data
@@ -184,8 +182,8 @@ getObject("objkey",new TypeToken<Obj>() {}.getType(), new Obj(0,"str",true));
 ```
 because the implementation of the set and get depends of turning the object to and from a Json, these functions can throw `SharedPreferencesHelperException` when the object you requested to set or get cannot turn to json successfully
 
-
-### Alert Dialogs
+#### best practice:
+keep a final static string for each `prefType` and in the SplashScreen or similar pre-launch scope initilize your SharedPreferences instances. you can access them anywhere in your app using the `instances` static map.### Alert Dialogs
 #### using `AlertDialogHelper` static functions to show different typs of Dialogs.
 
 static class name: AlertDialogHelper\
@@ -324,7 +322,55 @@ AlertDialogHelper.showDatePickerDialog(contextr, year, month, day, new AlertDial
            }
        });
 ```
-## Authors
+### Notifications Builder
+#### full disclosure: this Notifications Builder is for a simple Notifications without actions or services to prompt while app is not running. this helper will provide a simple way to prompt a notification while the app is running (foreground or background).
 
-- [@EZHard.studio](https://github.com/EZHard-Studio)
+onstractor overview:
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `context` | `Context` | required for SharedPreferences initialization |
+| `channelId`| `String` | an id for the channel, if exists the channel name and description will get updated using `channelName` and `channelDescription`|
+|`channelName`| `String` | name of the channel |
+|`channelDescription`| `String` | description of the purpose of the channel |
+|`importance`| `ChannelImportance` | set cahnnel importance|
+
+all NotificationHelper instances saved in a static map `instances` under their `channelId`
+
+static functions:
+- requestNotificationPermission(Activity activity) - prompt a permission request from the user to diplay notifications.
+- isChannelIdExists(Context context, String channelId) - return true if channel id already exists 
+- cancelNotification(Context context, int notificationId) - remove the notification with `notificationId` from statusbar
+- deleteNotificationChannel(Context context, String channelId) - delete the channel with id `channelId`
+
+#### Examples
+ standard initialization and usage:
+```java
+NotificationHelper helper = new NotificationHelper(context,channelId,channelName,channelDescription);
+
+helper.showNotification(R.drawable.your_icon,notificationID,priority);
+```
+instance map initialization and usage
+```java
+new NotificationHelper(context,channelId1,channelName1,channelDescription1);
+new NotificationHelper(context,channelId2,channelName2,channelDescription2); 
+
+NotificationHelper.instances.get(channelId1).showNotification(R.drawable.your_icon,notificationID,priority);
+NotificationHelper.instances.get(channelId2).showNotification(R.drawable.your_icon,notificationID,priority);
+```
+#### best practice:
+keep a final static string for each `channelId`, `channelName` and `channelDescription` to initilize in a  SplashScreen or similar pre-launch scope. 
+you can access them anywhere in your app using the `instances` static map to prompt a notification.
+
+#### another tip:
+setting different importance to channels, and priorites to notifications, will make notification behave differently. from only popping in the statusbar to display an entire notification at the top of the screen. 
+
+# Authors
+
+### [@EZHard.studio](https://github.com/EZHard-Studio)
+
+
+
+
+ 
+
 
