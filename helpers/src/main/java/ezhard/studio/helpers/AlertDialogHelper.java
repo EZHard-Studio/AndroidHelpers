@@ -34,9 +34,11 @@ public class AlertDialogHelper {
         void onNegativeClick();
     }
     
-    public interface DateTimePickerCallback  {
-        default void onDateSelected(int year, int month, int day){}
-        default void onTimeSelected(int hourOfDay, int minute) {}
+    public interface DatePickerCallback  {
+        void onDateSelected(int year, int month, int day);
+    }
+    public interface TimePickerCallback{
+        void onTimeSelected(int hourOfDay, int minute);
 
     }
     /**
@@ -381,7 +383,7 @@ public class AlertDialogHelper {
      * @param day                 The initially selected day of the month.
      * @param datePickerCallback The callback interface to handle date selection.
      */
-    public static void showDatePickerDialog(Context context, int year, int month, int day, final DateTimePickerCallback datePickerCallback) {
+    public static void showDatePickerDialog(Context context, int year, int month, int day, final DatePickerCallback datePickerCallback) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -402,7 +404,7 @@ public class AlertDialogHelper {
      * @param backgroundColor     The background color of the dialog.
      * @param datePickerCallback The callback interface to handle date selection.
      */
-    public static void showDatePickerDialog(Context context, int year, int month, int day, int backgroundColor, final DateTimePickerCallback datePickerCallback) {
+    public static void showDatePickerDialog(Context context, int year, int month, int day, int backgroundColor, final DatePickerCallback datePickerCallback) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -440,7 +442,7 @@ public class AlertDialogHelper {
      * @param minute              The initially selected minute (0-59).
      * @param timePickerCallback  The callback interface to handle time selection.
      */
-    public static void showTimePickerDialog(Context context, int hour, int minute, final DateTimePickerCallback timePickerCallback) {
+    public static void showTimePickerDialog(Context context, int hour, int minute, final TimePickerCallback timePickerCallback) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -460,7 +462,7 @@ public class AlertDialogHelper {
      * @param backgroundColor     The background color of the dialog.
      * @param timePickerCallback  The callback interface to handle time selection.
      */
-    public static void showTimePickerDialog(Context context, int hour, int minute, int backgroundColor, final DateTimePickerCallback timePickerCallback) {
+    public static void showTimePickerDialog(Context context, int hour, int minute, int backgroundColor, final TimePickerCallback timePickerCallback) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
