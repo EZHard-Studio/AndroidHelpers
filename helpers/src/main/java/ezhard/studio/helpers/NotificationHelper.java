@@ -19,7 +19,6 @@ public class NotificationHelper {
     private Context context;
     private String channelId;
     public static final HashMap<String,NotificationHelper> instances = new HashMap<>();
-
     /**
      * Constructs a NotificationHelper object.
      *
